@@ -48,11 +48,18 @@
 - Node.js 18+
 - npm 9+
 
-### 1. 启动后端
+### 1. 创建并激活虚拟环境
+
+```bash
+uv venv
+source .venv/bin/activate
+```
+
+### 2. 开启后端
 
 ```bash
 cd backend
-pip install -r requirements.txt
+uv pip install -r requirements.txt
 python seed_data.py          # 初始化数据库
 uvicorn main:app --host 0.0.0.0 --port 8000 --reload
 ```
@@ -61,7 +68,7 @@ uvicorn main:app --host 0.0.0.0 --port 8000 --reload
 - API 文档: http://localhost:8000/api/docs
 - 健康检查: http://localhost:8000/api/health
 
-### 2. 启动前端
+### 3. 启动前端
 
 ```bash
 cd frontend
@@ -71,7 +78,7 @@ npm run dev
 
 前端运行在 http://localhost:5173
 
-### 3. 访问系统
+### 4. 访问系统
 
 浏览器打开 http://localhost:5173 即可查看完整系统。
 
