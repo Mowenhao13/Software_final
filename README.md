@@ -207,7 +207,7 @@ python preprocess.py           # 生成 ISOMORPH 风格数据 → backend/data/
 模型文件存放于 `backend/lab/models/`，使用 HuggingFace `huggingface_hub` 下载：
 
 ```bash
-pip install huggingface_hub
+uv pip install huggingface_hub
 ```
 
 #### Chronos-2（必需，456MB）
