@@ -1,20 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import { Row, Col, Card, Spin, Statistic, Descriptions, Tag } from 'antd';
 import BaseChart from '../../components/Charts/BaseChart';
-import { getShipmentMap, getShipmentStats, getSupplierDist } from '../../api';
+import { getShipmentMap, getShipmentStats } from '../../api';
 
 export default function SupplyChain() {
   const [mapData, setMapData] = useState<any>(null);
   const [stats, setStats] = useState<any>(null);
-  const [supplierDist, setSupplierDist] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    Promise.all([getShipmentMap(), getShipmentStats(), getSupplierDist()])
-      .then(([m, s, sd]) => {
+    Promise.all([getShipmentMap(), getShipmentStats()])
+      .then(([m, s]) => {
         setMapData(m);
         setStats(s);
-        setSupplierDist(sd as any[]);
       })
       .finally(() => setLoading(false));
   }, []);
@@ -103,19 +101,7 @@ export default function SupplyChain() {
         </Col>
       </Row>
       <Row gutter={[16, 16]} style={{ marginTop: 16 }}>
-        <Col span={12}>
-          <Card title="供应商区域分布">
-            <BaseChart option={{
-              tooltip: { trigger: 'item' },
-              series: [{
-                type: 'pie', radius: '65%',
-                data: supplierDist.map((s: any) => ({ name: s.region, value: s.count })),
-                emphasis: { label: { fontSize: 16, fontWeight: 'bold' } },
-              }],
-            }} height={300} />
-          </Card>
-        </Col>
-        <Col span={12}>
+        <Col span={24}>
           <Card title="运输方式统计">
             <BaseChart option={{
               tooltip: { trigger: 'axis' },

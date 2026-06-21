@@ -5,12 +5,8 @@ import zhCN from 'antd/locale/zh_CN';
 import MainLayout from './components/Layout/MainLayout';
 import Dashboard from './pages/Dashboard';
 import SupplyChain from './pages/SupplyChain';
-import Suppliers from './pages/Suppliers';
-import Inventory from './pages/Inventory';
-import Orders from './pages/Orders';
-import Logistics from './pages/Logistics';
-import RiskMonitor from './pages/RiskMonitor';
-import Analytics from './pages/Analytics';
+import ForecastBoard from './pages/ForecastBoard';
+import RoutePlanner from './pages/RoutePlanner';
 
 export default function App() {
   return (
@@ -25,12 +21,8 @@ export default function App() {
           <Route element={<MainLayout />}>
             <Route path="/" element={<Dashboard />} />
             <Route path="/supply-chain" element={<SupplyChain />} />
-            <Route path="/suppliers" element={<Suppliers />} />
-            <Route path="/inventory" element={<Inventory />} />
-            <Route path="/orders" element={<Orders />} />
-            <Route path="/logistics" element={<Logistics />} />
-            <Route path="/risk-monitor" element={<RiskMonitor />} />
-            <Route path="/analytics" element={<Analytics />} />
+            <Route path="/forecast" element={<ForecastBoard />} />
+            <Route path="/route-planner" element={<RoutePlanner />} />
           </Route>
         </Routes>
       </BrowserRouter>
