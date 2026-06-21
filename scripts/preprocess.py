@@ -1,7 +1,7 @@
 """
 预处理脚本 — 生成 ISOMORPH 风格供应链数据
 - 50 个物品 (C=50)
-- 7,500 周需求 (等价于 52,560 天)
+- 260 周需求 (5 年, 按月/周尺度)
 - 5分量需求信号: 年季节性 + 周季节性 + AR(1)漂移 + 突发 + 宏观冲击
 - 13 节点图拓扑 (3工厂 + 9仓储 + 1目的地 NYC)
 """
@@ -15,8 +15,8 @@ DATA_DIR = BASE_DIR / "data"
 np.random.seed(2025)
 
 N_ITEMS = 50
-N_WEEKS = 7500  # 等价于 52,500 天 (≈ 144 年)
-N_DAYS = 52500
+N_WEEKS = 156   # 3 年 × 52 周/年 (合理的企业历史数据尺度)
+N_DAYS = 1092
 
 
 def _generate_isomorph_demand():
@@ -93,7 +93,7 @@ def _generate_isomorph_demand():
         all_items_list.append(item_id)
 
     # 全局宏观冲击 (对所有物品通用)
-    macro_shock_weeks = np.random.choice(N_WEEKS, size=50, replace=False)
+    macro_shock_weeks = np.random.choice(N_WEEKS, size=15, replace=False)  # 约 3 次/年 宏观冲击
     shock_height = np.random.uniform(100, 300)
     for week_idx in macro_shock_weeks:
         for item_id in np.random.choice(all_items_list, size=15, replace=False):

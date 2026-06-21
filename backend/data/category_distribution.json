@@ -2,26 +2,26 @@
   {
     "category": "apparel",
     "count": 10,
-    "total_demand": 69136.0
+    "total_demand": 70499.0
   },
   {
     "category": "automotive",
     "count": 10,
-    "total_demand": 135838.0
+    "total_demand": 156515.0
   },
   {
     "category": "food",
     "count": 10,
-    "total_demand": 51000.0
+    "total_demand": 55063.0
   },
   {
     "category": "pharma",
     "count": 10,
-    "total_demand": 76992.0
+    "total_demand": 92979.0
   },
   {
     "category": "electronics",
     "count": 10,
-    "total_demand": 119730.0
+    "total_demand": 110471.0
   }
 ]
