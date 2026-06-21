@@ -190,8 +190,9 @@ Chronos-2 预测: 物品 I001 下月需求增长 45%
 
 ```bash
 cd backend
-pip install -r requirements.txt
-pip install chronos-forecasting uni2ts
+uv venv
+uv pip install -r requirements.txt
+uv pip install chronos-forecasting uni2ts
 ```
 
 ### 2. 生成数据
@@ -201,14 +202,44 @@ cd scripts
 python preprocess.py           # 生成 ISOMORPH 风格数据 → backend/data/
 ```
 
-### 3. 下载模型（已预下载，可选重新下载）
+### 3. 下载模型
+
+模型文件存放于 `backend/lab/models/`，使用 HuggingFace `huggingface_hub` 下载：
 
 ```bash
-# 模型文件位于 backend/lab/models/
-# Chronos-2: lab/models/chronos-2/  (456MB, 必须)
-# Moirai-Small: lab/models/moirai-small/  (447MB, 可选)
-# Lag-Llama: lab/models/lag-llama/  (28MB, 需额外安装包)
+pip install huggingface_hub
 ```
+
+#### Chronos-2（必需，456MB）
+
+```python
+from huggingface_hub import snapshot_download
+# 或使用 hf 命令行: hf download amazon/chronos-2 --local-dir backend/lab/models/chronos-2
+snapshot_download("amazon/chronos-2", local_dir="backend/lab/models/chronos-2")
+```
+
+#### Moirai-Small（可选，支持多变量预测，447MB）
+
+```python
+from huggingface_hub import snapshot_download
+snapshot_download("salesforce/moirai-moe-1.0-r-small", local_dir="backend/lab/models/moirai-small")
+```
+
+#### Lag-Llama（可选，支持协变量预测，28MB）
+
+```python
+from huggingface_hub import hf_hub_download
+hf_hub_download(
+    repo_id="time-series-foundation-models/lag-llama",
+    filename="lag-llama.ckpt",
+    local_dir="backend/lab/models/lag-llama",
+)
+# 安装 Lag-Llama 包（需 GitHub 访问）:
+# git clone https://github.com/time-series-foundation-models/lag-llama.git
+# pip install ./lag-llama
+```
+
+> 如果下载缓慢，可设置 HF 镜像：`export HF_ENDPOINT=https://hf-mirror.com`
 
 ### 4. 启动后端
 
