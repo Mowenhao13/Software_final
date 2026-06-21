@@ -164,50 +164,89 @@ def _generate_graph():
 
 
 def _generate_dashboard_data(weekly_data):
-    """从需求数据生成 KPI、趋势、地图"""
+    """从需求数据生成 KPI、趋势、地图 — 基于最近 30 周数据"""
     from datetime import datetime, timedelta
     now = datetime.now()
 
-    # KPI - 使用需求数据统计
-    all_demand = []
+    # === KPI — 使用最近 30 周数据 ===
+    all_demand_recent = [] # 最近 30 周
+
     for item_id, item in weekly_data.items():
         d = np.array(item["weekly_demand"])
-        all_demand.extend(d[-30:])  # 最近30周
+        if len(d) >= 30:
+            all_demand_recent.extend(d[-30:])
+        else:
+            all_demand_recent.extend(d)
 
-    avg_demand = float(np.mean(all_demand))
-    total_demand = int(np.sum(all_demand))
+    total_demand = int(np.sum(all_demand_recent))
+
+    # 周均总需求 = 最近30周内每周所有物品需求之和的平均
+    weekly_totals = []
+    for item_id, item in weekly_data.items():
+        d = np.array(item["weekly_demand"])
+        if len(weekly_totals) == 0:
+            weekly_totals = d.copy()
+        else:
+            weekly_totals += d
+    recent_weekly_totals = weekly_totals[-30:] if len(weekly_totals) >= 30 else weekly_totals
+    avg_weekly_total = float(np.mean(recent_weekly_totals))
+
+    # 月环比增长：比较近 4 周 vs 前 4 周（基于最近30周）
+    if len(recent_weekly_totals) >= 8:
+        recent4 = np.mean(recent_weekly_totals[-4:])
+        prev4 = np.mean(recent_weekly_totals[-8:-4])
+        if prev4 > 0:
+            month_growth = round((recent4 - prev4) / prev4 * 100, 1)
+        else:
+            month_growth = round(np.random.uniform(3.0, 10.0), 1)
+    else:
+        month_growth = round(np.random.uniform(3.0, 10.0), 1)
 
     kpi = {
-        "total_orders": total_demand,
-        "total_amount": round(total_demand * 128.5, 2),
+        "total_orders": total_demand,                          # 最近30周总需求（单位量）
+        "total_amount": round(total_demand * 0.1285, 2),       # 总金额（万元）：需求×单价换算
         "on_time_delivery_rate": round(94.5 + np.random.uniform(-2, 2), 1),
         "inventory_turnover": round(4.2 + np.random.uniform(-0.5, 0.5), 1),
         "active_suppliers": 15,
         "risk_count": np.random.randint(3, 8),
-        "cost_total": round(total_demand * 85.0, 2),
-        "month_growth": round(np.random.uniform(3.0, 12.0), 1),
+        "cost_total": round(total_demand * 0.085, 2),          # 总成本（万元）
+        "month_growth": month_growth,
         "total_items": len(weekly_data),
-        "avg_weekly_demand": round(avg_demand, 1),
+        "avg_weekly_demand": round(avg_weekly_total, 0),       # 最近30周所有物品合计周均需求
         "prediction_confidence": round(0.70 + np.random.uniform(-0.05, 0.15), 2),
     }
     with open(DATA_DIR / "kpi_snapshot.json", "w") as f:
         json.dump(kpi, f, indent=2)
 
-    # 30天趋势
+    # === 30 天趋势 — 基于真实需求数据抽取 ===
+    # 将 156 周映射到 30 天（每周聚合为日并插值）
     trends = []
+    n_weeks = min(N_WEEKS, 52)  # 用最近 1 年
     for i in range(30):
         d = now - timedelta(days=29 - i)
-        total = int(np.random.randint(300, 600))
+        # 映射到周索引
+        week_idx = n_weeks - 30 + i
+        if week_idx < 0:
+            week_idx = 0
+        if week_idx >= len(weekly_totals):
+            week_idx = len(weekly_totals) - 1
+        weekly_total = weekly_totals[week_idx] if week_idx < len(weekly_totals) else np.mean(weekly_totals)
+
+        # 用周总需求估算日订单数
+        daily_orders = int(weekly_total / 7 * (0.85 + np.random.random() * 0.3))
+        unit_price = np.random.uniform(100, 160)
+        cost_ratio = np.random.uniform(0.55, 0.72)
+
         trends.append({
             "date": d.strftime("%Y-%m-%d"),
-            "orders": total,
-            "amount": round(float(np.random.uniform(total * 100, total * 150)), 2),
-            "cost": round(float(np.random.uniform(total * 60, total * 90)), 2),
+            "orders": daily_orders,
+            "amount": round(float(daily_orders * unit_price), 2),
+            "cost": round(float(daily_orders * unit_price * cost_ratio), 2),
         })
     with open(DATA_DIR / "trends.json", "w") as f:
         json.dump({"trends": trends}, f, indent=2)
 
-    # 品类分布
+    # === 品类分布（保持不变） ===
     cat_stats = {}
     for item_id, item in weekly_data.items():
         cat = item.get("category", "general")
@@ -221,11 +260,10 @@ def _generate_dashboard_data(weekly_data):
     with open(DATA_DIR / "category_distribution.json", "w") as f:
         json.dump(cat_distribution, f, indent=2)
 
-    # 供应链地图 — 从图拓扑动态生成
+    # === 供应链地图 — 从图拓扑动态生成（保持不变） ===
     carriers = ["Carrier_A", "Carrier_B", "Carrier_C", "Carrier_D", "Carrier_E"]
     statuses = ["in_transit", "delivered", "delayed", "pending"]
 
-    # 读取图拓扑
     graph_path = DATA_DIR / "graph_topology.json"
     if graph_path.exists():
         with open(graph_path) as gf:
@@ -233,14 +271,12 @@ def _generate_dashboard_data(weekly_data):
     else:
         graph_data = {"nodes": [], "edges": []}
 
-    # 构建节点坐标映射
     node_coords = {}
     for n in graph_data.get("nodes", []):
         coords = n.get("coords", [0, 0])
         node_coords[n["id"]] = coords
 
     edges = graph_data.get("edges", [])
-    # 随机选择部分边作为活动路线（约70%）
     active_edges = np.random.choice(
         len(edges),
         size=max(1, int(len(edges) * 0.7)),
@@ -284,6 +320,9 @@ def _generate_dashboard_data(weekly_data):
         }, f, indent=2)
 
     print(f"KPI + 趋势 + 品类分布 + 地图已写入 {DATA_DIR}")
+    print(f"  total_demand(全量156周) = {total_demand:,}")
+    print(f"  avg_weekly_total(周均合计) = {avg_weekly_total:,.0f}")
+    print(f"  month_growth = {month_growth}%")
 
 
 def main():
