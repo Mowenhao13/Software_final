@@ -1,0 +1,13 @@
+{
+  "total_orders": 254306,
+  "total_amount": 32678321.0,
+  "on_time_delivery_rate": 92.5,
+  "inventory_turnover": 4.7,
+  "active_suppliers": 15,
+  "risk_count": 7,
+  "cost_total": 21616010.0,
+  "month_growth": 5.7,
+  "total_items": 50,
+  "avg_weekly_demand": 169.5,
+  "prediction_confidence": 0.72
+}
