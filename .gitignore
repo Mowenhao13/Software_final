@@ -15,6 +15,9 @@ node_modules/
 frontend/dist/
 *.tsbuildinfo
 
+# ===== Model Files (large binaries, ~900MB) =====
+backend/lab/
+
 # ===== Database =====
 *.db
 

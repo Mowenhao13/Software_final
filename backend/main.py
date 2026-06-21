@@ -9,20 +9,17 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi import WebSocket, WebSocketDisconnect
 
 from config import CORS_ORIGINS
-from database import engine, Base
-from routers import dashboard, suppliers, products, inventory, orders, shipments, forecast, risks, analytics
-from seed_data import seed_all
+from routers import dashboard, forecast, optimization
+from routers.shipments import router as supply_chain_router
 
-# 创建应用
 app = FastAPI(
     title="AI供应链可视化分析系统",
     description="AI-Empowered Enterprise Supply Chain Visualization Analysis System",
-    version="1.0.0",
+    version="2.0.0",
     docs_url="/api/docs",
     redoc_url="/api/redoc",
 )
 
-# CORS 中间件
 app.add_middleware(
     CORSMiddleware,
     allow_origins=CORS_ORIGINS,
@@ -33,28 +30,16 @@ app.add_middleware(
 
 # 注册路由
 app.include_router(dashboard.router)
-app.include_router(suppliers.router)
-app.include_router(products.router)
-app.include_router(inventory.router)
-app.include_router(orders.router)
-app.include_router(shipments.router)
 app.include_router(forecast.router)
-app.include_router(risks.router)
-app.include_router(analytics.router)
-
-
-@app.on_event("startup")
-async def on_startup():
-    """应用启动 — 创建表并填充种子数据"""
-    Base.metadata.create_all(bind=engine)
-    seed_all()
+app.include_router(optimization.router)
+app.include_router(supply_chain_router)
 
 
 @app.get("/")
 def root():
     return {
         "name": "AI供应链可视化分析系统",
-        "version": "1.0.0",
+        "version": "2.0.0",
         "docs": "/api/docs",
     }
 
@@ -74,7 +59,6 @@ async def websocket_endpoint(websocket: WebSocket):
     connected_clients.append(websocket)
     try:
         while True:
-            # 模拟实时供应链数据推送 (每3秒)
             data = {
                 "timestamp": datetime.now().isoformat(),
                 "new_orders_today": random.randint(0, 5),
@@ -85,11 +69,11 @@ async def websocket_endpoint(websocket: WebSocket):
                     {
                         "type": random.choice(["order_placed", "shipment_update", "alert_triggered", "inventory_update"]),
                         "message": random.choice([
-                            "新订单PO-2025-1061已确认",
-                            "运单SF2025100105已到达南京中转站",
-                            "库存预警: MCU芯片低于安全库存",
-                            "供应商评分已更新",
-                            "物流时效恢复正常",
+                            "新需求预测数据已更新",
+                            "物流路径优化完成",
+                            "库存预警: 某物品需求激增",
+                            "路径推荐已刷新",
+                            "Chronos-2 预测任务完成",
                         ]),
                         "time": datetime.now().strftime("%H:%M:%S"),
                     }
