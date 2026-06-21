@@ -163,6 +163,94 @@ Chronos-2 预测: 物品 I001 下月需求增长 45%
 | 数据大小 | ~145KB（7 个 JSON 文件） |
 | 图拓扑 | 13 节点 + 23 条边（含运输方式属性） |
 
+## 数据集下载指引
+
+本系统数据集通过两种方式获取：**本地生成**（推荐，即开即用）或 **HuggingFace 下载**（备选，获取 ISOMORPH Benchmark 原始数据集）。
+
+### 方式一：本地生成数据（推荐）
+
+运行预处理脚本即可生成全部数据，无需额外下载：
+
+```bash
+cd scripts
+python preprocess.py
+```
+
+执行后会在 `backend/data/` 生成以下 JSON 文件：
+
+| 文件 | 大小 | 说明 |
+|------|------|------|
+| `demand_weekly.json` | ~80KB | **核心需求数据** — 50 物品 × 156 周周度需求时序，含品类属性 |
+| `graph_topology.json` | ~10KB | **图拓扑** — 13 节点（3 工厂 + 9 仓储 + 1 目的地）+ 23 条有向边（含运输方式） |
+| `kpi_snapshot.json` | ~1KB | **KPI 快照** — 总订单量、总金额、准时率、周转率等仪表盘指标 |
+| `category_distribution.json` | ~1KB | **品类分布** — 5 品类（electronics/apparel/automotive/food/pharma）的物品数和总需求 |
+| `item_catalog.json` | ~1KB | **物品-品类映射** — 每个品类包含的物品 ID 列表 |
+| `supply_chain_map.json` | ~4KB | **供应链地图** — 动态生成的物流路由（从图拓扑抽取约 70% 边） |
+| `trends.json` | ~4KB | **趋势数据** — 30 天日频订单金额/成本趋势（基于需求数据估算） |
+
+**总大小**：约 145KB，7 个 JSON 文件
+
+#### 数据样例
+
+`demand_weekly.json` 结构：
+
+```json
+{
+  "total_weeks": 156,
+  "total_items": 50,
+  "items": {
+    "I001": {
+      "item_id": "I001",
+      "category": "electronics",
+      "base_demand": 180,
+      "weekly_demand": [185.23, 192.56, 178.91, ...]   // 156 个连续周值
+    }
+  }
+}
+```
+
+`graph_topology.json` 边结构：
+
+```json
+{
+  "from": "Factory_NY",
+  "to": "Warehouse_1",
+  "travel_time_days": 2,
+  "capacity_per_day": 100,
+  "cost": 200,
+  "mode": "road"
+}
+```
+
+### 方式二：从 HuggingFace 下载 ISOMORPH 基准数据集
+
+如需获取原始 ISOMORPH Supply Chain Benchmark 数据集（C=50 场景，约 500MB），可使用备选下载脚本：
+
+```bash
+# 1. 安装 datasets 库
+uv pip install datasets
+
+# 2. 运行下载脚本
+cd scripts
+python download_isomorph.py
+```
+
+数据将缓存到 `backend/lab/datasets/hf_cache/`。
+
+> 注意：HuggingFace 数据集格式为 HuggingFace `datasets` 库的 Arrow 格式，主要用于研究和基准测试。本系统的实际运行数据仍使用本地生成的 JSON 文件（方式一）。
+
+### 数据生成原理
+
+数据基于 **ISOMORPH 风格 5 分量需求信号模型** 生成：
+
+- **基准水平**：每个物品的基础周均需求（60–350 单位，按品类分层随机）
+- **AR(1) 漂移**：自回归噪声（φ=0.90–0.98），模拟需求惯性
+- **季节性**：年周期（52 周）+ 月周期（4.33 周），正弦波叠加
+- **突发事件**：随机冲击（约 1–3% 概率，持续 2–4 周）
+- **宏观冲击**：全品类同步扰动（约 3 次/年，15 个物品受影响）
+
+**随机种子固定**（`np.random.seed(2025)`），每次运行结果可复现。
+
 ## 技术栈
 
 | 层级 | 技术 |

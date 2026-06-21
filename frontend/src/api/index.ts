@@ -49,3 +49,10 @@ export const batchForecast = (itemIds: string[], horizon = 12, model = 'auto') =
 export const getOptimizationGraph = () => api.get('/optimization/graph');
 export const findRoute = (data: any) => api.post('/optimization/route', data);
 export const findRouteWithForecast = (data: any) => api.post('/optimization/route/with-forecast', data);
+
+// ========== Risk Monitor ==========
+export const getRiskOverview = () => api.get('/risk-monitor/overview');
+export const getSupplyRisks = () => api.get('/risk-monitor/supply-risks');
+export const getDemandRisks = () => api.get('/risk-monitor/demand-risks');
+export const getLogisticsRisks = () => api.get('/risk-monitor/logistics-risks');
+export const getRiskAlerts = () => api.get('/risk-monitor/alerts');

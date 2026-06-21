@@ -3,7 +3,7 @@ import { Outlet, useNavigate, useLocation } from 'react-router-dom';
 import { Layout, Menu, Badge, Typography, Tag } from 'antd';
 import {
   DashboardOutlined, NodeIndexOutlined, LineChartOutlined,
-  ApartmentOutlined,
+  ApartmentOutlined, WarningOutlined,
 } from '@ant-design/icons';
 import { realtimeClient } from '../../utils/websocket';
 
@@ -14,6 +14,7 @@ const menuItems = [
   { key: '/supply-chain', icon: <NodeIndexOutlined />, label: '供应链全景' },
   { key: '/forecast', icon: <LineChartOutlined />, label: '需求预测' },
   { key: '/route-planner', icon: <ApartmentOutlined />, label: '路径规划' },
+  { key: '/risk-monitor', icon: <WarningOutlined />, label: '风险监控' },
 ];
 
 export default function MainLayout() {

@@ -82,12 +82,15 @@ def get_category_distribution() -> List[Dict[str, Any]]:
 
 
 def get_all_items_summary() -> List[Dict[str, Any]]:
-    """所有物品的简要统计"""
+    """所有物品的简要统计（基于最近 30 周）"""
     demand = _load_json("demand_weekly.json")
     items = demand.get("items", {})
     result = []
     for item_id, item in items.items():
         d = np.array(item.get("weekly_demand", []))
+        # 仅取最近 30 周
+        if len(d) >= 30:
+            d = d[-30:]
         total = float(np.sum(d))
         avg = float(np.mean(d))
         std = float(np.std(d))

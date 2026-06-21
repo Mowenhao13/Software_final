@@ -136,7 +136,7 @@ export default function Dashboard() {
       <Row gutter={[16, 16]}>
         {[
           { title: '总订单量', value: kpis?.total_orders, icon: <ShoppingCartOutlined />, suffix: '单', color: '#1890ff' },
-          { title: '总交易额', value: (kpis?.total_amount / 10000).toFixed(1), icon: <DollarOutlined />, suffix: '万元', color: '#52c41a' },
+          { title: '总交易额', value: kpis?.total_amount?.toFixed(1), icon: <DollarOutlined />, suffix: '万元', color: '#52c41a' },
           { title: '准时交付率', value: kpis?.on_time_delivery_rate, icon: <CheckCircleOutlined />, suffix: '%', color: '#13c2c2' },
           { title: '库存周转率', value: kpis?.inventory_turnover, icon: <SyncOutlined />, suffix: '次/年', color: '#722ed1' },
           { title: '活跃供应商', value: kpis?.active_suppliers, icon: <TeamOutlined />, suffix: '家', color: '#fa8c16' },
@@ -179,7 +179,7 @@ export default function Dashboard() {
                 <div style={{ fontSize: 20, fontWeight: 700, color: '#1890ff' }}>
                   {(kpis?.prediction_confidence * 100).toFixed(0)}%</div>
                 <div style={{ fontSize: 12, color: '#999', marginBottom: 4, marginTop: 12 }}>总成本</div>
-                <div style={{ fontSize: 20, fontWeight: 700 }}>{(kpis?.cost_total / 10000).toFixed(1)}
+                <div style={{ fontSize: 20, fontWeight: 700 }}>{kpis?.cost_total?.toFixed(1)}
                   <span style={{ fontSize: 12, color: '#999' }}> 万元</span></div>
               </div>
             </div>

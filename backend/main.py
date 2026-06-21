@@ -11,6 +11,7 @@ from fastapi import WebSocket, WebSocketDisconnect
 from config import CORS_ORIGINS
 from routers import dashboard, forecast, optimization
 from routers.shipments import router as supply_chain_router
+from routers.risk_monitor import router as risk_monitor_router
 
 app = FastAPI(
     title="AI供应链可视化分析系统",
@@ -33,6 +34,7 @@ app.include_router(dashboard.router)
 app.include_router(forecast.router)
 app.include_router(optimization.router)
 app.include_router(supply_chain_router)
+app.include_router(risk_monitor_router)
 
 
 @app.get("/")

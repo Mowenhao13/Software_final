@@ -7,6 +7,7 @@ import Dashboard from './pages/Dashboard';
 import SupplyChain from './pages/SupplyChain';
 import ForecastBoard from './pages/ForecastBoard';
 import RoutePlanner from './pages/RoutePlanner';
+import RiskMonitor from './pages/RiskMonitor';
 
 export default function App() {
   return (
@@ -23,6 +24,7 @@ export default function App() {
             <Route path="/supply-chain" element={<SupplyChain />} />
             <Route path="/forecast" element={<ForecastBoard />} />
             <Route path="/route-planner" element={<RoutePlanner />} />
+            <Route path="/risk-monitor" element={<RiskMonitor />} />
           </Route>
         </Routes>
       </BrowserRouter>
