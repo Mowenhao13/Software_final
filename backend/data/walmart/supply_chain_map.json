@@ -1,0 +1,168 @@
+{
+  "routes": [
+    {
+      "origin": "DC_Texas",
+      "destination": "Store_HOU",
+      "mode": "road",
+      "origin_coords": [
+        -96.8,
+        32.78
+      ],
+      "dest_coords": [
+        -95.37,
+        29.76
+      ],
+      "status": "pending",
+      "carrier": "Walmart_Logistics",
+      "eta_hours": 12
+    },
+    {
+      "origin": "DC_Midwest",
+      "destination": "DC_West",
+      "mode": "rail",
+      "origin_coords": [
+        -86.53,
+        39.77
+      ],
+      "dest_coords": [
+        -117.16,
+        32.72
+      ],
+      "status": "in_transit",
+      "carrier": "JB_Hunt",
+      "eta_hours": 96
+    },
+    {
+      "origin": "Bentonville_HQ",
+      "destination": "DC_Texas",
+      "mode": "road",
+      "origin_coords": [
+        -94.22,
+        36.37
+      ],
+      "dest_coords": [
+        -96.8,
+        32.78
+      ],
+      "status": "in_transit",
+      "carrier": "Werner",
+      "eta_hours": 48
+    },
+    {
+      "origin": "DC_Midwest",
+      "destination": "DC_Southeast",
+      "mode": "road",
+      "origin_coords": [
+        -86.53,
+        39.77
+      ],
+      "dest_coords": [
+        -84.39,
+        33.75
+      ],
+      "status": "in_transit",
+      "carrier": "Knight_Swift",
+      "eta_hours": 72
+    },
+    {
+      "origin": "DC_Southeast",
+      "destination": "DC_Northeast",
+      "mode": "rail",
+      "origin_coords": [
+        -84.39,
+        33.75
+      ],
+      "dest_coords": [
+        -75.37,
+        40.91
+      ],
+      "status": "in_transit",
+      "carrier": "Werner",
+      "eta_hours": 72
+    },
+    {
+      "origin": "DC_Southeast",
+      "destination": "Store_ATL",
+      "mode": "road",
+      "origin_coords": [
+        -84.39,
+        33.75
+      ],
+      "dest_coords": [
+        -84.39,
+        33.76
+      ],
+      "status": "in_transit",
+      "carrier": "JB_Hunt",
+      "eta_hours": 24
+    },
+    {
+      "origin": "DC_Northeast",
+      "destination": "DC_Midwest",
+      "mode": "road",
+      "origin_coords": [
+        -75.37,
+        40.91
+      ],
+      "dest_coords": [
+        -86.53,
+        39.77
+      ],
+      "status": "in_transit",
+      "carrier": "Knight_Swift",
+      "eta_hours": 48
+    },
+    {
+      "origin": "DC_West",
+      "destination": "Store_SEA",
+      "mode": "rail",
+      "origin_coords": [
+        -117.16,
+        32.72
+      ],
+      "dest_coords": [
+        -122.33,
+        47.61
+      ],
+      "status": "delivered",
+      "carrier": "Knight_Swift",
+      "eta_hours": 0
+    },
+    {
+      "origin": "DC_Texas",
+      "destination": "DC_West",
+      "mode": "rail",
+      "origin_coords": [
+        -96.8,
+        32.78
+      ],
+      "dest_coords": [
+        -117.16,
+        32.72
+      ],
+      "status": "in_transit",
+      "carrier": "Walmart_Logistics",
+      "eta_hours": 96
+    },
+    {
+      "origin": "DC_Northeast",
+      "destination": "Store_NY",
+      "mode": "road",
+      "origin_coords": [
+        -75.37,
+        40.91
+      ],
+      "dest_coords": [
+        -73.99,
+        40.76
+      ],
+      "status": "delivered",
+      "carrier": "Werner",
+      "eta_hours": 0
+    }
+  ],
+  "total_in_transit": 7,
+  "total_delivered": 2,
+  "total_delayed": 0,
+  "total_pending": 1
+}

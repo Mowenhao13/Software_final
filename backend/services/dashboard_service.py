@@ -1,14 +1,13 @@
-"""仪表盘服务 — 从 JSON 文件读取数据"""
+"""仪表盘服务 — 从 JSON 文件读取数据（支持多数据集切换）"""
 import json
 import numpy as np
 from pathlib import Path
 from typing import Any, Dict, List
-
-DATA_DIR = Path(__file__).resolve().parent.parent / "data"
+from services.dataset_manager import get_data_dir
 
 
 def _load_json(filename: str) -> dict:
-    path = DATA_DIR / filename
+    path = get_data_dir() / filename
     if not path.exists():
         return {}
     with open(path) as f:
@@ -88,7 +87,6 @@ def get_all_items_summary() -> List[Dict[str, Any]]:
     result = []
     for item_id, item in items.items():
         d = np.array(item.get("weekly_demand", []))
-        # 仅取最近 30 周
         if len(d) >= 30:
             d = d[-30:]
         total = float(np.sum(d))
@@ -97,6 +95,7 @@ def get_all_items_summary() -> List[Dict[str, Any]]:
         latest = float(d[-1]) if len(d) > 0 else 0
         result.append({
             "item_id": item_id,
+            "name": item.get("name", item_id),  # 具体商品名（detailed 数据集有值）
             "category": item.get("category", "general"),
             "total_demand": round(total, 0),
             "avg_weekly": round(avg, 1),

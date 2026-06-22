@@ -56,3 +56,8 @@ export const getSupplyRisks = () => api.get('/risk-monitor/supply-risks');
 export const getDemandRisks = () => api.get('/risk-monitor/demand-risks');
 export const getLogisticsRisks = () => api.get('/risk-monitor/logistics-risks');
 export const getRiskAlerts = () => api.get('/risk-monitor/alerts');
+
+// ========== Datasets ==========
+export const getDatasets = () => api.get('/datasets');
+export const getActiveDataset = () => api.get('/datasets/active');
+export const switchDataset = (id: string) => api.post(`/datasets/switch/${id}`);

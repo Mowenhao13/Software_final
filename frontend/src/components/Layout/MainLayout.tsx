@@ -1,11 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Outlet, useNavigate, useLocation } from 'react-router-dom';
-import { Layout, Menu, Badge, Typography, Tag } from 'antd';
+import { Layout, Menu, Badge, Typography, Tag, Select, message } from 'antd';
 import {
   DashboardOutlined, NodeIndexOutlined, LineChartOutlined,
   ApartmentOutlined, WarningOutlined,
 } from '@ant-design/icons';
 import { realtimeClient } from '../../utils/websocket';
+import { getDatasets, switchDataset } from '../../api';
 
 const { Header, Sider, Content } = Layout;
 
@@ -17,23 +18,54 @@ const menuItems = [
   { key: '/risk-monitor', icon: <WarningOutlined />, label: '风险监控' },
 ];
 
+interface DatasetOption {
+  id: string;
+  name: string;
+  description: string;
+  items: number;
+}
+
 export default function MainLayout() {
   const navigate = useNavigate();
   const location = useLocation();
   const [wsData, setWsData] = useState<any>({});
   const [currentTime, setCurrentTime] = useState(new Date());
+  const [datasets, setDatasets] = useState<DatasetOption[]>([]);
+  const [activeDataset, setActiveDataset] = useState('');
+  const [switching, setSwitching] = useState(false);
+
+  const loadDatasets = useCallback(async () => {
+    try {
+      const res: any = await getDatasets();
+      setDatasets(res.datasets || []);
+      setActiveDataset(res.active?.id || res.active?.active || '');
+    } catch { /* ignore */ }
+  }, []);
 
   useEffect(() => {
     realtimeClient.connect();
     const unsub = realtimeClient.onMessage((data) => setWsData(data));
-
     const timer = setInterval(() => setCurrentTime(new Date()), 1000);
+    loadDatasets();
     return () => {
       unsub();
       realtimeClient.disconnect();
       clearInterval(timer);
     };
-  }, []);
+  }, [loadDatasets]);
+
+  const handleDatasetChange = async (value: string) => {
+    setSwitching(true);
+    try {
+      await switchDataset(value);
+      message.success(`已切换到数据集: ${datasets.find(d => d.id === value)?.name || value}`);
+      // 刷新页面以重新加载所有数据
+      setTimeout(() => window.location.reload(), 500);
+    } catch {
+      message.error('切换数据集失败');
+      setSwitching(false);
+    }
+  };
 
   return (
     <Layout style={{ minHeight: '100vh' }}>
@@ -65,6 +97,17 @@ export default function MainLayout() {
             AI 赋能企业供应链的可视化分析系统
           </Typography.Title>
           <div style={{ display: 'flex', alignItems: 'center', gap: 16, fontSize: 14 }}>
+            <Select
+              value={activeDataset || undefined}
+              onChange={handleDatasetChange}
+              loading={switching}
+              style={{ width: 200 }}
+              placeholder="选择数据集"
+              options={datasets.map(d => ({
+                value: d.id,
+                label: `${d.name} (${d.items}种商品)`,
+              }))}
+            />
             <Tag color="blue">实时监控中</Tag>
             <span style={{ color: '#666' }}>{currentTime.toLocaleString('zh-CN')}</span>
             {wsData?.active_alerts > 0 && (

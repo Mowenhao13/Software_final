@@ -241,7 +241,7 @@ export default function ForecastBoard() {
                 filterOption={(input: string, opt: any) => (opt?.label as string)?.toLowerCase().includes(input.toLowerCase())}
                 options={items.map((i: any) => ({
                   value: i.item_id,
-                  label: `${i.item_id} | ${i.category} (${(i.weeks / 52).toFixed(0)}年数据)`,
+                  label: `${i.name && i.name !== i.item_id ? i.name : i.item_id} | ${i.category} (${(i.weeks / 52).toFixed(0)}年数据)`,
                 }))}
               />
               {category && <Tag color={catColor} style={{ fontSize: 13, padding: '2px 12px' }}>{category}</Tag>}

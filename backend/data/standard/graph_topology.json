@@ -1,0 +1,333 @@
+{
+  "nodes": [
+    {
+      "id": "Factory_NY",
+      "name": "New York Factory",
+      "type": "factory",
+      "region": "Northeast",
+      "coords": [
+        -73.94,
+        40.81
+      ],
+      "capacity": 500
+    },
+    {
+      "id": "Factory_CHI",
+      "name": "Chicago Factory",
+      "type": "factory",
+      "region": "Midwest",
+      "coords": [
+        -87.63,
+        41.88
+      ],
+      "capacity": 800
+    },
+    {
+      "id": "Factory_LA",
+      "name": "LA Factory",
+      "type": "factory",
+      "region": "West",
+      "coords": [
+        -118.24,
+        34.05
+      ],
+      "capacity": 600
+    },
+    {
+      "id": "Warehouse_1",
+      "name": "NY Metro DC",
+      "type": "warehouse",
+      "region": "Northeast",
+      "coords": [
+        -74.01,
+        40.71
+      ],
+      "capacity": 400
+    },
+    {
+      "id": "Warehouse_2",
+      "name": "NJ Distribution",
+      "type": "warehouse",
+      "region": "Northeast",
+      "coords": [
+        -74.42,
+        40.72
+      ],
+      "capacity": 350
+    },
+    {
+      "id": "Warehouse_3",
+      "name": "Chicago Hub",
+      "type": "warehouse",
+      "region": "Midwest",
+      "coords": [
+        -87.62,
+        41.87
+      ],
+      "capacity": 450
+    },
+    {
+      "id": "Warehouse_4",
+      "name": "Atlanta Hub",
+      "type": "warehouse",
+      "region": "Southeast",
+      "coords": [
+        -84.39,
+        33.75
+      ],
+      "capacity": 300
+    },
+    {
+      "id": "Warehouse_5",
+      "name": "Dallas Hub",
+      "type": "warehouse",
+      "region": "South",
+      "coords": [
+        -96.8,
+        32.78
+      ],
+      "capacity": 320
+    },
+    {
+      "id": "Warehouse_6",
+      "name": "LA Distribution",
+      "type": "warehouse",
+      "region": "West",
+      "coords": [
+        -118.24,
+        34.05
+      ],
+      "capacity": 380
+    },
+    {
+      "id": "Warehouse_7",
+      "name": "Denver Hub",
+      "type": "warehouse",
+      "region": "Mountain",
+      "coords": [
+        -104.99,
+        39.74
+      ],
+      "capacity": 250
+    },
+    {
+      "id": "Warehouse_8",
+      "name": "Seattle Hub",
+      "type": "warehouse",
+      "region": "West",
+      "coords": [
+        -122.33,
+        47.61
+      ],
+      "capacity": 280
+    },
+    {
+      "id": "Warehouse_9",
+      "name": "DC Distribution",
+      "type": "warehouse",
+      "region": "Northeast",
+      "coords": [
+        -77.04,
+        38.91
+      ],
+      "capacity": 360
+    },
+    {
+      "id": "NYC_Destination",
+      "name": "NYC Customer Center",
+      "type": "destination",
+      "region": "Northeast",
+      "coords": [
+        -73.99,
+        40.76
+      ],
+      "capacity": 9999
+    }
+  ],
+  "edges": [
+    {
+      "from": "Factory_NY",
+      "to": "Warehouse_1",
+      "travel_time_days": 2,
+      "capacity_per_day": 100,
+      "cost": 200,
+      "mode": "road"
+    },
+    {
+      "from": "Factory_NY",
+      "to": "Warehouse_9",
+      "travel_time_days": 3,
+      "capacity_per_day": 80,
+      "cost": 300,
+      "mode": "road"
+    },
+    {
+      "from": "Factory_CHI",
+      "to": "Warehouse_3",
+      "travel_time_days": 1,
+      "capacity_per_day": 150,
+      "cost": 100,
+      "mode": "road"
+    },
+    {
+      "from": "Factory_CHI",
+      "to": "Warehouse_5",
+      "travel_time_days": 3,
+      "capacity_per_day": 120,
+      "cost": 250,
+      "mode": "rail"
+    },
+    {
+      "from": "Factory_CHI",
+      "to": "Warehouse_7",
+      "travel_time_days": 4,
+      "capacity_per_day": 90,
+      "cost": 350,
+      "mode": "rail"
+    },
+    {
+      "from": "Factory_LA",
+      "to": "Warehouse_6",
+      "travel_time_days": 1,
+      "capacity_per_day": 140,
+      "cost": 150,
+      "mode": "road"
+    },
+    {
+      "from": "Factory_LA",
+      "to": "Warehouse_8",
+      "travel_time_days": 3,
+      "capacity_per_day": 100,
+      "cost": 280,
+      "mode": "rail"
+    },
+    {
+      "from": "Warehouse_1",
+      "to": "Warehouse_2",
+      "travel_time_days": 1,
+      "capacity_per_day": 120,
+      "cost": 80,
+      "mode": "road"
+    },
+    {
+      "from": "Warehouse_1",
+      "to": "Warehouse_9",
+      "travel_time_days": 2,
+      "capacity_per_day": 100,
+      "cost": 180,
+      "mode": "road"
+    },
+    {
+      "from": "Warehouse_2",
+      "to": "NYC_Destination",
+      "travel_time_days": 1,
+      "capacity_per_day": 130,
+      "cost": 60,
+      "mode": "road"
+    },
+    {
+      "from": "Warehouse_3",
+      "to": "Warehouse_5",
+      "travel_time_days": 3,
+      "capacity_per_day": 110,
+      "cost": 220,
+      "mode": "rail"
+    },
+    {
+      "from": "Warehouse_3",
+      "to": "Warehouse_4",
+      "travel_time_days": 2,
+      "capacity_per_day": 100,
+      "cost": 170,
+      "mode": "road"
+    },
+    {
+      "from": "Warehouse_4",
+      "to": "Warehouse_9",
+      "travel_time_days": 2,
+      "capacity_per_day": 90,
+      "cost": 200,
+      "mode": "road"
+    },
+    {
+      "from": "Warehouse_5",
+      "to": "Warehouse_7",
+      "travel_time_days": 2,
+      "capacity_per_day": 80,
+      "cost": 190,
+      "mode": "road"
+    },
+    {
+      "from": "Warehouse_5",
+      "to": "Warehouse_4",
+      "travel_time_days": 2,
+      "capacity_per_day": 95,
+      "cost": 160,
+      "mode": "road"
+    },
+    {
+      "from": "Warehouse_6",
+      "to": "Warehouse_7",
+      "travel_time_days": 3,
+      "capacity_per_day": 85,
+      "cost": 260,
+      "mode": "rail"
+    },
+    {
+      "from": "Warehouse_6",
+      "to": "Warehouse_8",
+      "travel_time_days": 2,
+      "capacity_per_day": 90,
+      "cost": 200,
+      "mode": "road"
+    },
+    {
+      "from": "Warehouse_7",
+      "to": "Warehouse_9",
+      "travel_time_days": 3,
+      "capacity_per_day": 75,
+      "cost": 280,
+      "mode": "rail"
+    },
+    {
+      "from": "Warehouse_8",
+      "to": "Warehouse_7",
+      "travel_time_days": 2,
+      "capacity_per_day": 80,
+      "cost": 210,
+      "mode": "road"
+    },
+    {
+      "from": "Warehouse_8",
+      "to": "Warehouse_9",
+      "travel_time_days": 4,
+      "capacity_per_day": 70,
+      "cost": 350,
+      "mode": "rail"
+    },
+    {
+      "from": "Warehouse_9",
+      "to": "NYC_Destination",
+      "travel_time_days": 1,
+      "capacity_per_day": 120,
+      "cost": 80,
+      "mode": "road"
+    },
+    {
+      "from": "Warehouse_2",
+      "to": "Warehouse_9",
+      "travel_time_days": 3,
+      "capacity_per_day": 70,
+      "cost": 250,
+      "mode": "road"
+    },
+    {
+      "from": "Warehouse_4",
+      "to": "NYC_Destination",
+      "travel_time_days": 2,
+      "capacity_per_day": 85,
+      "cost": 180,
+      "mode": "road"
+    }
+  ]
+}

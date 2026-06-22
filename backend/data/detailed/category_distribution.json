@@ -1,0 +1,27 @@
+[
+  {
+    "category": "electronics",
+    "count": 8,
+    "total_demand": 77141.0
+  },
+  {
+    "category": "food",
+    "count": 10,
+    "total_demand": 94946.0
+  },
+  {
+    "category": "apparel",
+    "count": 8,
+    "total_demand": 49620.0
+  },
+  {
+    "category": "automotive",
+    "count": 7,
+    "total_demand": 58326.0
+  },
+  {
+    "category": "pharma",
+    "count": 7,
+    "total_demand": 63302.0
+  }
+]

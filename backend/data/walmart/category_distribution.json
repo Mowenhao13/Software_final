@@ -1,0 +1,38 @@
+[
+  {
+    "category": "grocery",
+    "name": "\u98df\u54c1\u6742\u8d27",
+    "count": 6,
+    "total_demand": 13566627.0
+  },
+  {
+    "category": "electronics",
+    "name": "\u7535\u5b50\u7528\u54c1",
+    "count": 5,
+    "total_demand": 7189244.0
+  },
+  {
+    "category": "home",
+    "name": "\u5bb6\u5c45\u7528\u54c1",
+    "count": 5,
+    "total_demand": 6021423.0
+  },
+  {
+    "category": "apparel",
+    "name": "\u670d\u88c5\u978b\u5e3d",
+    "count": 6,
+    "total_demand": 7239810.0
+  },
+  {
+    "category": "sports",
+    "name": "\u8fd0\u52a8\u6237\u5916",
+    "count": 4,
+    "total_demand": 4265819.0
+  },
+  {
+    "category": "baby",
+    "name": "\u5a74\u513f\u7528\u54c1",
+    "count": 4,
+    "total_demand": 3417608.0
+  }
+]

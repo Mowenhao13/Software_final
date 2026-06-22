@@ -109,7 +109,7 @@ export default function Dashboard() {
   const itemBarOption = {
     tooltip: { trigger: 'axis' },
     grid: { left: 60, right: 20, top: 10, bottom: 60 },
-    xAxis: { type: 'category', data: topItems.map((i: any) => i.item_id), axisLabel: { rotate: 45, fontSize: 10 } },
+    xAxis: { type: 'category', data: topItems.map((i: any) => i.name && i.name !== i.item_id ? i.name : i.item_id), axisLabel: { rotate: 45, fontSize: 10 } },
     yAxis: { type: 'value' },
     series: [{
       type: 'bar', data: topItems.map((i: any) => i.avg_weekly),
@@ -119,6 +119,8 @@ export default function Dashboard() {
 
   const itemColumns = [
     { title: '物品ID', dataIndex: 'item_id', key: 'id', width: 80 },
+    { title: '商品名称', dataIndex: 'name', key: 'name', width: 120,
+      render: (v: string, r: any) => v && v !== r.item_id ? v : '-' },
     { title: '品类', dataIndex: 'category', key: 'cat', width: 100,
       render: (v: string) => <Tag color={catColorMap[v] || '#999'}>{v}</Tag> },
     { title: '总需求量', dataIndex: 'total_demand', key: 'total', width: 120, sorter: (a: any, b: any) => a.total_demand - b.total_demand },

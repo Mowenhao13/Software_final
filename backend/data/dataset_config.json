@@ -1,0 +1,8 @@
+{
+  "active": "detailed",
+  "datasets": [
+    "standard",
+    "detailed",
+    "walmart"
+  ]
+}

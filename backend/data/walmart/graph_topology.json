@@ -1,0 +1,258 @@
+{
+  "nodes": [
+    {
+      "id": "Bentonville_HQ",
+      "name": "Walmart HQ (AR)",
+      "type": "warehouse",
+      "region": "South",
+      "coords": [
+        -94.22,
+        36.37
+      ],
+      "capacity": 2000
+    },
+    {
+      "id": "DC_Midwest",
+      "name": "Midwest DC (IN)",
+      "type": "warehouse",
+      "region": "Midwest",
+      "coords": [
+        -86.53,
+        39.77
+      ],
+      "capacity": 1500
+    },
+    {
+      "id": "DC_West",
+      "name": "West Coast DC (CA)",
+      "type": "warehouse",
+      "region": "West",
+      "coords": [
+        -117.16,
+        32.72
+      ],
+      "capacity": 1200
+    },
+    {
+      "id": "DC_Southeast",
+      "name": "Southeast DC (GA)",
+      "type": "warehouse",
+      "region": "Southeast",
+      "coords": [
+        -84.39,
+        33.75
+      ],
+      "capacity": 1000
+    },
+    {
+      "id": "DC_Northeast",
+      "name": "Northeast DC (PA)",
+      "type": "warehouse",
+      "region": "Northeast",
+      "coords": [
+        -75.37,
+        40.91
+      ],
+      "capacity": 1100
+    },
+    {
+      "id": "DC_Texas",
+      "name": "Texas DC (TX)",
+      "type": "warehouse",
+      "region": "South",
+      "coords": [
+        -96.8,
+        32.78
+      ],
+      "capacity": 900
+    },
+    {
+      "id": "Store_NY",
+      "name": "NY Supercenter",
+      "type": "store",
+      "region": "Northeast",
+      "coords": [
+        -73.99,
+        40.76
+      ],
+      "capacity": 500
+    },
+    {
+      "id": "Store_LA",
+      "name": "LA Supercenter",
+      "type": "store",
+      "region": "West",
+      "coords": [
+        -118.24,
+        34.05
+      ],
+      "capacity": 600
+    },
+    {
+      "id": "Store_CHI",
+      "name": "Chicago Supercenter",
+      "type": "store",
+      "region": "Midwest",
+      "coords": [
+        -87.63,
+        41.88
+      ],
+      "capacity": 550
+    },
+    {
+      "id": "Store_ATL",
+      "name": "Atlanta Supercenter",
+      "type": "store",
+      "region": "Southeast",
+      "coords": [
+        -84.39,
+        33.76
+      ],
+      "capacity": 450
+    },
+    {
+      "id": "Store_HOU",
+      "name": "Houston Supercenter",
+      "type": "store",
+      "region": "South",
+      "coords": [
+        -95.37,
+        29.76
+      ],
+      "capacity": 400
+    },
+    {
+      "id": "Store_SEA",
+      "name": "Seattle Supercenter",
+      "type": "store",
+      "region": "West",
+      "coords": [
+        -122.33,
+        47.61
+      ],
+      "capacity": 350
+    }
+  ],
+  "edges": [
+    {
+      "from": "Bentonville_HQ",
+      "to": "DC_Midwest",
+      "travel_time_days": 2,
+      "capacity_per_day": 500,
+      "cost": 300,
+      "mode": "road"
+    },
+    {
+      "from": "Bentonville_HQ",
+      "to": "DC_Texas",
+      "travel_time_days": 2,
+      "capacity_per_day": 400,
+      "cost": 280,
+      "mode": "road"
+    },
+    {
+      "from": "DC_Midwest",
+      "to": "Store_CHI",
+      "travel_time_days": 1,
+      "capacity_per_day": 300,
+      "cost": 120,
+      "mode": "road"
+    },
+    {
+      "from": "DC_Midwest",
+      "to": "DC_Northeast",
+      "travel_time_days": 2,
+      "capacity_per_day": 350,
+      "cost": 200,
+      "mode": "road"
+    },
+    {
+      "from": "DC_Northeast",
+      "to": "Store_NY",
+      "travel_time_days": 1,
+      "capacity_per_day": 280,
+      "cost": 100,
+      "mode": "road"
+    },
+    {
+      "from": "DC_West",
+      "to": "Store_LA",
+      "travel_time_days": 1,
+      "capacity_per_day": 350,
+      "cost": 90,
+      "mode": "road"
+    },
+    {
+      "from": "DC_West",
+      "to": "Store_SEA",
+      "travel_time_days": 3,
+      "capacity_per_day": 200,
+      "cost": 350,
+      "mode": "rail"
+    },
+    {
+      "from": "DC_Southeast",
+      "to": "Store_ATL",
+      "travel_time_days": 1,
+      "capacity_per_day": 250,
+      "cost": 80,
+      "mode": "road"
+    },
+    {
+      "from": "DC_Southeast",
+      "to": "DC_Northeast",
+      "travel_time_days": 3,
+      "capacity_per_day": 300,
+      "cost": 280,
+      "mode": "rail"
+    },
+    {
+      "from": "DC_Texas",
+      "to": "Store_HOU",
+      "travel_time_days": 1,
+      "capacity_per_day": 220,
+      "cost": 90,
+      "mode": "road"
+    },
+    {
+      "from": "DC_Texas",
+      "to": "DC_West",
+      "travel_time_days": 4,
+      "capacity_per_day": 250,
+      "cost": 400,
+      "mode": "rail"
+    },
+    {
+      "from": "DC_Midwest",
+      "to": "DC_West",
+      "travel_time_days": 4,
+      "capacity_per_day": 280,
+      "cost": 380,
+      "mode": "rail"
+    },
+    {
+      "from": "DC_Midwest",
+      "to": "DC_Southeast",
+      "travel_time_days": 3,
+      "capacity_per_day": 300,
+      "cost": 250,
+      "mode": "road"
+    },
+    {
+      "from": "DC_Northeast",
+      "to": "DC_Midwest",
+      "travel_time_days": 2,
+      "capacity_per_day": 320,
+      "cost": 200,
+      "mode": "road"
+    },
+    {
+      "from": "Store_CHI",
+      "to": "Store_NY",
+      "travel_time_days": 4,
+      "capacity_per_day": 100,
+      "cost": 500,
+      "mode": "rail"
+    }
+  ]
+}

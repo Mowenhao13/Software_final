@@ -11,7 +11,7 @@ from pathlib import Path
 from typing import List, Dict, Any, Optional, Literal
 from datetime import datetime, timedelta
 
-DATA_DIR = Path(__file__).resolve().parent.parent / "data"
+from services.dataset_manager import get_data_dir
 MODELS_DIR = Path(__file__).resolve().parent.parent / "lab" / "models"
 
 # HF 镜像
@@ -142,7 +142,7 @@ def get_available_models() -> List[Dict[str, Any]]:
 # ==================== 数据加载 ====================
 
 def _load_demand_data() -> Dict[str, Any]:
-    path = DATA_DIR / "demand_weekly.json"
+    path = get_data_dir() / "demand_weekly.json"
     if not path.exists():
         return {"weeks": [], "items": {}}
     with open(path) as f:
@@ -152,7 +152,12 @@ def _load_demand_data() -> Dict[str, Any]:
 def get_available_items() -> List[Dict[str, Any]]:
     data = _load_demand_data()
     return [
-        {"item_id": iid, "weeks": len(item.get("weekly_demand", [])), "category": item.get("category", "")}
+        {
+            "item_id": iid,
+            "name": item.get("name"),
+            "weeks": len(item.get("weekly_demand", [])),
+            "category": item.get("category", ""),
+        }
         for iid, item in data.get("items", {}).items()
     ]
 

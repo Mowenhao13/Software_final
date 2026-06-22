@@ -114,9 +114,20 @@ export default function RoutePlanner() {
           color: n.type === 'factory' ? '#fa8c16' : n.type === 'destination' ? '#52c41a' : '#1890ff',
         },
       })),
-      edges: (routes.paths[0]?.path || []).slice(0, -1).map((fromId: string, i: number) => {
+      edges: (routes?.paths?.[0]?.path || []).slice(0, -1).map((fromId: string, i: number) => {
         const toId = routes.paths[0].path[i + 1];
-        return { source: fromId, target: toId };
+        const seg = routes.paths[0].segments?.[i];
+        return {
+          source: fromId,
+          target: toId,
+          lineStyle: {
+            color: seg?.mode === 'rail' ? '#fa8c16' : seg?.mode === 'air' ? '#f5222d' : '#1890ff',
+            width: seg?.mode === 'rail' ? 3 : 2,
+            curveness: seg?.mode === 'rail' ? 0.3 : 0.15,
+            type: seg?.mode === 'rail' ? 'dotted' : 'solid' as const,
+          },
+          label: { show: true, formatter: seg?.mode || 'road', fontSize: 9, color: '#666' },
+        };
       }),
       categories: [
         { name: '工厂', itemStyle: { color: '#fa8c16' } },
@@ -239,7 +250,15 @@ export default function RoutePlanner() {
       {modeFilter && (
         <Row gutter={[16, 16]} style={{ marginTop: 16 }}>
           <Col span={24}>
-            <Alert type="info" message={`当前过滤: 运输方式 = ${modeFilter}`} showIcon />
+            <Alert
+              type={routes?.mode_relaxed ? 'warning' : 'info'}
+              message={
+                routes?.mode_relaxed
+                  ? `已放宽过滤: 未找到纯 ${modeFilter} 路径，已恢复到混合运输模式。您选择的运输方式将作为偏好参考。`
+                  : `当前过滤: 运输方式 = ${modeFilter}`
+              }
+              showIcon
+            />
           </Col>
         </Row>
       )}
@@ -250,6 +269,25 @@ export default function RoutePlanner() {
           <Col span={6}><Card><Statistic title="推荐路径成本" value={bestPath.total_cost} suffix="元" /></Card></Col>
           <Col span={6}><Card><Statistic title="需求适配度" value={bestPath.demand_fitness} suffix="%" valueStyle={{ color: bestPath.demand_fitness > 80 ? '#52c41a' : '#faad14' }} /></Card></Col>
           <Col span={6}><Card><Statistic title="推荐路径" value={bestPath.path.length} suffix="节点" /></Card></Col>
+        </Row>
+      )}
+
+      {bestPath?.segments && !loading && (
+        <Row gutter={[16, 16]} style={{ marginTop: 16 }}>
+          <Col span={24}>
+            <Card title="路径分段详情" size="small">
+              <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+                {bestPath.segments.map((seg: any, i: number) => (
+                  <Tag key={i} color={seg.mode === 'rail' ? 'orange' : seg.mode === 'air' ? 'red' : 'blue'}
+                    style={{ padding: '4px 12px', fontSize: 13 }}>
+                    {seg.from} → {seg.to}
+                    <span style={{ marginLeft: 6, fontWeight: 600 }}>[{seg.mode}]</span>
+                    <span style={{ marginLeft: 6 }}>{seg.days}天</span>
+                  </Tag>
+                ))}
+              </div>
+            </Card>
+          </Col>
         </Row>
       )}
 
